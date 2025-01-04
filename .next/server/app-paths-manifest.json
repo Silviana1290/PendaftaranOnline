@@ -1,0 +1,6 @@
+{
+  "/page": "app/page.js",
+  "/rumah-sakit/[id]/poli/page": "app/rumah-sakit/[id]/poli/page.js",
+  "/rumah-sakit/schedule/[specialty]/page": "app/rumah-sakit/schedule/[specialty]/page.js",
+  "/rujukan/page": "app/rujukan/page.js"
+}
