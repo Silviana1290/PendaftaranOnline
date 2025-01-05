@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { X } from 'lucide-react'
+import { Search } from 'lucide-react'
 
 interface Appointment {
   id: number
@@ -39,29 +39,56 @@ export default function ReprintModal({ onClose }: { onClose: () => void }) {
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg w-full max-w-4xl p-6">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold">Reprint</h2>
-          <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
-            <X className="h-6 w-6" />
+      <div className={`bg-white rounded-lg shadow-lg ${hasSearched ? 'w-[90%] max-w-6xl' : 'w-[400px]'}`}>
+        <div className="p-4 flex justify-between items-center border-b">
+          <h2 className="text-xl font-bold">Reprint</h2>
+          <button 
+            onClick={onClose}
+            className="text-red-500 hover:text-red-700"
+          >
+            <svg viewBox="0 0 24 24" width="24" height="24">
+              <path
+                fill="currentColor"
+                d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z"
+              />
+            </svg>
           </button>
         </div>
 
-        <form onSubmit={handleSearch}>
-          <div className="mb-6">
-            <input
-              type="text"
-              value={nik}
-              onChange={(e) => setNik(e.target.value)}
-              placeholder="Masukan data NIK, kemudian tekan ENTER"
-              className="w-full p-2 border border-gray-300 rounded"
-            />
-          </div>
-        </form>
+        <div className="p-6">
+          <form onSubmit={handleSearch} className="space-y-6">
+            <div className="relative">
+              <input
+                type="text"
+                value={nik}
+                onChange={(e) => setNik(e.target.value)}
+                placeholder="Masukan data NIK"
+                className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-green-500"
+                required
+              />
+            </div>
 
-        {hasSearched && (
-          <>
-            <div className="overflow-x-auto">
+            <div className="flex justify-between gap-4">
+              <button
+                type="submit"
+                className="flex items-center gap-2 px-6 py-3 bg-green-500 text-white rounded-full hover:bg-green-600 transition-colors"
+              >
+                <Search className="w-5 h-5" />
+                Cari Antrean
+              </button>
+
+              <button
+                type="button"
+                onClick={onClose}
+                className="px-6 py-3 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
+              >
+                Tutup
+              </button>
+            </div>
+          </form>
+
+          {hasSearched && (
+            <div className="mt-6 overflow-x-auto">
               <table className="w-full border-collapse">
                 <thead>
                   <tr className="bg-gray-50">
@@ -98,42 +125,9 @@ export default function ReprintModal({ onClose }: { onClose: () => void }) {
                 </tbody>
               </table>
             </div>
-
-            <div className="mt-4 flex justify-between items-center">
-              <p className="text-sm text-gray-600">
-                Menampilkan {searchResults.length} s/d {searchResults.length} dari {searchResults.length} data
-              </p>
-              <div className="flex gap-2">
-                <button className="px-3 py-1 border rounded text-gray-600" disabled>
-                  Previous
-                </button>
-                <button className="px-3 py-1 bg-blue-500 text-white rounded" disabled>
-                  1
-                </button>
-                <button className="px-3 py-1 border rounded text-gray-600" disabled>
-                  Next
-                </button>
-              </div>
-            </div>
-
-            <div className="mt-6 flex justify-end gap-4">
-              <button
-                onClick={handleSearch}
-                className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
-              >
-                Cari Antrean
-              </button>
-              <button
-                onClick={onClose}
-                className="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300"
-              >
-                Tutup
-              </button>
-            </div>
-          </>
-        )}
+          )}
+        </div>
       </div>
     </div>
   )
 }
-
